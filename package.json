@@ -47,17 +47,14 @@
     "harness": "mocha-bdd",
     "files": "test/test.js",
     "browsers": [
-      "ie8",
-      "ie9",
-      "ie10",
-      "ie11",
-      "ff/latest",
-      "ff/nightly",
-      "chrome/latest",
-      "chrome/canary",
-      "opera/latest",
-      "opera/next",
-      "safari/latest"
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
     ]
   }
 }
