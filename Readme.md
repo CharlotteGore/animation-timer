@@ -1,10 +1,12 @@
 # Animation Timer
 
+[![browser support](https://ci.testling.com/charlottegore/animation-timer.png)](https://ci.testling.com/charlottegore/animation-timer)
+
 [![Build Status](https://travis-ci.org/charlottegore/animation-timer.png?branch=master)](https://travis-ci.org/charlottegore/animation-timer)
 
-Low level animation / LFO module suitable for animations, games development and audio processing. It uses [Tick](https://github.com/charlottegore/tick) as a central controller, giving the ability to pause and resume individual or all animations currently in progress.
+Low level animation / LFO module suitable for graphics, games development and audio processing. It uses [Tick](https://github.com/charlottegore/tick) as a central controller, giving the ability to pause and resume individual or all animations currently in progress.
 
-Animation Timer literally does nothing but supply you with a normalised, utterly generic 'percentage time elapsed' value. The applications are worryingly diverse.
+Animation Timer literally does nothing but supply you with a normalised, abstract 'percentage time elapsed' value.
 
 - Create a new timer and set a duration
 - Set your tick event handler
@@ -12,7 +14,8 @@ Animation Timer literally does nothing but supply you with a normalised, utterly
 - Stop it, Pause it, Resume it. 
 - Tick handler gets a value between 0 and 1
 
-This module works extremely well with [Functional Easing](https://github.com/charlottegore/functional-easing) which can wrap your tick handlers with easing functions so that you get eased time values instead of raw linear time elapsed values. It's cool. Not bow-tie cool, but pretty pretty cool. 
+This module works extremely well with [Functional Easing](https://github.com/charlottegore/functional-easing) which can wrap your tick handlers with easing functions so that you get eased time values instead of raw linear time elapsed values. It's cool. Not bow-tie cool, but pretty pretty cool. Together they pretty much eliminate most of the tediously repetitive math around dealing
+with animations and easing and let you concentrate on your actual functionality. 
 
 ## Example
 
