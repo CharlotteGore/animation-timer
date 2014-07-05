@@ -2,7 +2,7 @@
 
 [![browser support](https://ci.testling.com/charlottegore/animation-timer.png)](https://ci.testling.com/charlottegore/animation-timer)
 
-[![Build Status](https://travis-ci.org/charlottegore/animation-timer.png?branch=master)](https://travis-ci.org/charlottegore/animation-timer)
+[![Build Status](https://travis-ci.org/CharlotteGore/animation-timer.png?branch=master)](https://travis-ci.org/CharlotteGore/animation-timer)
 
 Low level animation / LFO module suitable for graphics, games development and audio processing. It uses [Tick](https://github.com/charlottegore/tick) as a central controller, giving the ability to pause and resume individual or all animations currently in progress.
 
@@ -49,7 +49,6 @@ var animation = new AnimationTimer()
 
 animation.bounce();
 ```
-
 ## Installation
 
 Browserify/NPM
@@ -254,6 +253,14 @@ $ npm install
 ```sh
 grunt test
 ```
+
+## Background
+
+This module is intended to replaced my much loved [Tween](https://github.com/CharlotteGore/Tween) module which, while incredibly useful has proven to be the wrong abstraction and difficult to use once stepping outside the realm of `{left : 10, top : 15}`. I needed a more abstract, flexible module that would give me the crucial time information and actually _run_ animations, but not be involved in actual tweening or anything like that, making it less cumbersome and inefficent when changing vectors, matricies, quarternions etc over time. 
+
+## Roadmap
+
+There is no roadmap as much, although possible useful functions would be 'stopBeforeLooping()' for looping and bouncing animations. Debating with myself whether to support 'playAt(tick.now() + delay)' or 'stopAt(tick.now() + delay)' or whether a separate scheduling module would be more appropriate.
 
 ## License
 
