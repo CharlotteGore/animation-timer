@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/charlottegore/animation-timer.png?branch=master)](https://travis-ci.org/charlottegore/animation-timer)
 
-Low level animation / LFO module suitable for animations, games development and audio processing. It uses [Tick](https://github.com/charlottegore/tick) as a central controller, giving the ability to pause and resume animations currently in progress.
+Low level animation / LFO module suitable for animations, games development and audio processing. It uses [Tick](https://github.com/charlottegore/tick) as a central controller, giving the ability to pause and resume individual or all animations currently in progress.
 
 Animation Timer literally does nothing but supply you with a normalised, utterly generic 'percentage time elapsed' value. The applications are worryingly diverse.
 
@@ -12,13 +12,16 @@ Animation Timer literally does nothing but supply you with a normalised, utterly
 - Stop it, Pause it, Resume it. 
 - Tick handler gets a value between 0 and 1
 
+This module works extremely well with [Functional Easing](https://github.com/charlottegore/functional-easing) which can wrap your tick handlers with easing functions so that you get eased time values instead of raw linear time elapsed values. It's cool. Not bow-tie cool, but pretty pretty cool. 
+
 ## Example
 
 ```js
 // some dependencies...
 var quat = require('gl-matrix-quat');
 var mat4 = require('gl-matrix-mat4');
-var Easer = require('gm-easing').Easer;
+var Easer = require('functional-easing').Easer;
+
 // animation timer module...
 var AnimationTimer = require('animation-timer').AnimationTimer;
 
@@ -27,20 +30,19 @@ var q1 = quat.fromValues(0.5, 0.3, 1.0, 1.0);
 var q2 = quat.fromValues(0.1, 0.9, 0.2, 1.0);
 
 // make an easing function..
-var easer = new Easer().using('ease-in');
+var easer = new Easer().using('in-cubic');
 
 var animation = new AnimationTimer()
   .duration('5s')
-  .on('tick', function (percent){
+  // wrap our tick handler with our easing function...
+  .on('tick', easer(function (percent){
 
     var out = quat.create();
+    quat.slerp(out, q1, q2, percent);
 
-    var time = easer(percent);
+    // do something with our new quaternion... 
 
-    var new
-    quat.slerp(out, q1, q2, time);
-
-  });
+  }));
 
 animation.bounce();
 ```
@@ -55,19 +57,6 @@ Browserify/NPM
 
 ```js
   var AnimationTimer = require('animation-timer').AnimationTimer;
-```
-
-## Tests
-
-Assuming you have `grunt-cli` already installed, and you've cloned the repo:
-
-```sh
-# Just the once...
-$ npm install
-```
-
-```sh
-grunt test
 ```
 
 # API
@@ -248,6 +237,19 @@ Resumes an animation
 
 ```js
 animation.resume();
+```
+
+## Tests
+
+Assuming you have `grunt-cli` already installed, and you've cloned the repo:
+
+```sh
+# Just the once...
+$ npm install
+```
+
+```sh
+grunt test
 ```
 
 ## License

@@ -1,12 +1,23 @@
-// tick is the managed raf utility we're using here..
-var tick = require('gm-tick');
-var is = require('gm-is');
-var each = require('foreach');
+// bind polyfill.. mostly just for phantomjs support really.
 
+require('bindpolyfill');
+
+// instead of using requestAnimation frame directly, we're using tick, which provides
+// a single requestAnimationFrame loop which can be globally paused and resumed and provides
+// this module with the ability to pause and resume individual animations.
+
+// It also abstracts the differences between browsers, always providing the highest resolution
+// time information available. It's quite cool.
+var tick = require('gm-tick');
+
+// is is just a simple type checking utility
+var is = require('gm-is');
+// underscore's each
+var each = require('foreach');
+// convert strings containing time information into miliseconds
 var parser = require('gm-parse-duration');
 
-var emptyFunction = function DoAbsolutelyNothing(){};
-
+// Some flags... 
 var IDLE = 0;
 var PLAYONCE = 1;
 var LOOP = 2;
@@ -16,20 +27,22 @@ var BACKWARD = 16;
 var PAUSED = 32;
 
 function AnimationTimer ( ) {
+  // default duration is 1 second. 
   this._duration = 1000;
   this._state = IDLE;
+  // user callback containter
   this.fn = {};
 
   return this;
 }
 
 AnimationTimer.prototype = {
-
+  // set the duration. can be string, '10ms', '2.4s', '5m' or miliseconds, 1022.
   duration : function (duration) {
     this._duration = parser(duration);
     return this;
   },
-
+  // subscribe to an event, e.g, .on('tick', function(time){ .. })
   on : function (event, callback){
 
     if (is.string(event) && is['function'](callback)){
@@ -44,7 +57,7 @@ AnimationTimer.prototype = {
 
     return this;
   },
-
+  // trigger an event, e.g, .on('stop', function(time){ .. })
   trigger : function (event){
 
     if(this.fn[event]){
@@ -53,8 +66,7 @@ AnimationTimer.prototype = {
     }
 
   },
-
-  // play through once.
+  // play through once, stopping at '1'
   play : function () {
 
     this._lastTick = 0;
@@ -63,7 +75,7 @@ AnimationTimer.prototype = {
     this._handle = tick.add(playOnceHandler.bind(this));
 
   },
-
+  // play through once, in reverse, stopping at '0'
   reverse : function () {
 
     this._lastTick = 0;
@@ -72,8 +84,7 @@ AnimationTimer.prototype = {
     this._handle = tick.add(playOnceHandler.bind(this));
 
   },
-
-  // play through repeatedly.
+  // play through repeatedly, going from '0' to '1' every 'duration'
   loop : function () {
 
     this._lastTick = 0;
@@ -82,8 +93,7 @@ AnimationTimer.prototype = {
     this._handle = tick.add(loopHandler.bind(this));
 
   },
-
-  // reverse repeatedly.
+  // play in reverse repeatedly, going fmor '1' to '0' every 'duration'
   loopReverse : function () {
 
     this._lastTick = 0;
@@ -92,8 +102,7 @@ AnimationTimer.prototype = {
     this._handle = tick.add(loopHandler.bind(this));
 
   },
-
-  // play forwards then backwards
+  // repeatedly toggling between play() and reverse() every 'duration'
   bounce : function () {
 
     this._lastTick = 0;
@@ -102,8 +111,7 @@ AnimationTimer.prototype = {
     this._handle = tick.add(bounceHandler.bind(this));
 
   },
-
-  // immediately stop
+  // immediately stop. Stopped animations cannot be resumed.
   stop : function () {
 
     this._state = IDLE;
@@ -122,7 +130,7 @@ AnimationTimer.prototype = {
     }
 
   },
-
+  // resume the animation.
   resume : function () {
 
     this._state -= PAUSED;
@@ -131,7 +139,7 @@ AnimationTimer.prototype = {
     }
 
   },
-
+  // query the state (debug)
   state : function (){
 
     return this._state;
@@ -139,6 +147,11 @@ AnimationTimer.prototype = {
   }
 };
 
+// In order to minimse the complexity of tick handlers, there are three
+// discrete functions here. Less branching, less 'if' statements etc.
+// more code to write, less code to execute.
+
+// handles single play animations
 function playOnceHandler (elapsed, stop){
 
   // when playing only once, we need to guaranteed the highest number is 1.
@@ -158,6 +171,7 @@ function playOnceHandler (elapsed, stop){
 
 }
 
+// handles looping animations
 function loopHandler (elapsed, stop){
 
   var percent = (elapsed / this._duration) % 1;
@@ -173,6 +187,7 @@ function loopHandler (elapsed, stop){
 
 }
 
+// handles bounding animations
 function bounceHandler (elapsed, stop){
 
   var percent = (elapsed / this._duration) % 1;
