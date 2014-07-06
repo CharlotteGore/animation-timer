@@ -8,7 +8,9 @@ require('bindpolyfill');
 
 // It also abstracts the differences between browsers, always providing the highest resolution
 // time information available. It's quite cool.
-var tick = require('gm-tick');
+var tick = require('animation-loops');
+
+tick.add(function(){});
 
 // is is just a simple type checking utility
 var is = require('gm-is');
@@ -152,12 +154,12 @@ AnimationTimer.prototype = {
 // more code to write, less code to execute.
 
 // handles single play animations
-function playOnceHandler (elapsed, stop){
+function playOnceHandler (elapsed, delta, stop){
 
   // when playing only once, we need to guaranteed the highest number is 1.
   var percent = Math.min(1, elapsed / this._duration);
 
-  this.trigger('tick', (this._forwards ? percent : 1 - percent ));
+  this.trigger('tick', (this._forwards ? percent : 1 - percent ), delta);
 
   // are we at the end now? 
   if (percent === 1){
@@ -172,23 +174,22 @@ function playOnceHandler (elapsed, stop){
 }
 
 // handles looping animations
-function loopHandler (elapsed, stop){
+function loopHandler (elapsed, delta, stop){
 
   var percent = (elapsed / this._duration) % 1;
 
   if(percent < this._lastTick){
     this.trigger('loop', tick.now());
   }
-
     // update the last tick for next time...
   this._lastTick = percent;
 
-  this.trigger('tick', (this._forwards ? percent : 1 - percent ));
+  this.trigger('tick', (this._forwards ? percent : 1 - percent ), delta);
 
 }
 
 // handles bounding animations
-function bounceHandler (elapsed, stop){
+function bounceHandler (elapsed, delta, stop){
 
   var percent = (elapsed / this._duration) % 1;
 
@@ -202,7 +203,7 @@ function bounceHandler (elapsed, stop){
 
   this._lastTick = percent;
 
-  this.trigger('tick', (this._forwards ? percent : 1 - percent ));
+  this.trigger('tick', (this._forwards ? percent : 1 - percent ), delta);
 
 }
 

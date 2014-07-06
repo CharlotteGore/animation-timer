@@ -17,16 +17,19 @@
     "percent elapsed",
     "browser"
   ],
+  "scripts": {
+    "test": "grunt test"
+  },
   "author": "Charlotte Gore <charlotte@greenmesa.co.uk>",
   "dependencies": {
-    "gm-tick": "~1.0.2",
+    "animation-loops": "2.0.2",
     "gm-parse-duration": "~1.0.4",
     "gm-is": "~1.2.2",
     "foreach": "~2.0.4",
     "bindpolyfill": "0.0.0"
   },
   "main": "index.js",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -41,7 +44,8 @@
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-watch": "~0.5.3",
     "chai": "~1.9.0",
-    "mocha": "~1.17.1"
+    "mocha": "~1.17.1",
+    "raf" : "*"
   },
   "testling": {
     "harness": "mocha-bdd",

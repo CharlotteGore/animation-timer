@@ -1,6 +1,5 @@
 var chai = require('chai');
 var expect = chai.expect;
-var should = chai.should();
 
 animationModule = require('../index.js');
 
@@ -26,7 +25,7 @@ describe('Animation Core module', function (){
       triggerCount++;
       var elapsed = Date.now() - time;
 
-      expect(elapsed).to.be.within(200,210);
+      expect(elapsed).to.be.within(200,220);
       expect(triggerCount).to.equal(1);
       done();
 
@@ -152,7 +151,7 @@ describe('Animation Core module', function (){
 
     animation.on('stop', function (){
 
-      expect(Date.now() - time).to.be.within(300, 310);
+      expect(Date.now() - time).to.be.within(300, 340);
       done();
       
     });
@@ -190,7 +189,7 @@ describe('Animation Core module', function (){
 
     setTimeout(function(){
       animation.stop();   
-    }, 410);
+    }, 440);
 
     animation.on('stop', function (){
 
@@ -232,7 +231,7 @@ describe('Animation Core module', function (){
 
     setTimeout(function(){
       animation.stop();   
-    }, 420);
+    }, 440);
 
     animation.on('stop', function (){
 
@@ -277,7 +276,7 @@ describe('Animation Core module', function (){
 
     setTimeout(function(){
       animation.stop();   
-    }, 420);
+    }, 440);
 
     animation.on('stop', function (){
 
