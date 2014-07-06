@@ -134,9 +134,11 @@ Technically you can trigger any event manually, including any custom events you 
 
 ## Playing Animations
 
-### animation.play()
+### animation.play(start)
 
 Fires a tick handler every animationFrame until the duration has elapsed, at which point it stops.
+
+By default it begins immediately but optionally an absolute start time can be specified.
 
 - `time` in the tick handler climbs from 0 to 1, representing the percentage `duration` elapsed.
 
@@ -151,7 +153,9 @@ animation
 
 ### animation.loop()
 
-Fires a tick handler every animationFrame indefinitely
+Fires a tick handler every animationFrame indefinitely.
+
+By default it begins immediately but optionally an absolute start time can be specified.
 
 - `time` in the tick handler climbs from 0 to 1, representing the percentage `duration` elapsed.
 - Each `duration`, `time` loops back to 0 and starts again
@@ -168,7 +172,9 @@ animation
 
 ### animation.bounce()
 
-Fires a tick handler every animationFrame indefinitely
+Fires a tick handler every animationFrame indefinitely.
+
+By default it begins immediately but optionally an absolute start time can be specified.
 
 - `time` in the tick handler climbs from 0 to 1, then 1 to 0, then 0 to 1 and so on.
 - Each `duration`, `time` toggles between climbing and falling.
@@ -187,6 +193,8 @@ animation
 
 Fires a tick handler every animationFrame until the duration has elapsed, at which point it stops.
 
+By default it begins immediately but optionally an absolute start time can be specified.
+
 - `time` in the tick handler falls from 1 to 0, representing the inverted percentage `duration` elapsed.
 
 ```js
@@ -201,6 +209,8 @@ animation
 ### animation.loopReverse()
 
 Fires a tick handler every animationFrame indefinitely
+
+By default it begins immediately but optionally an absolute start time can be specified.
 
 - `time` in the tick handler falls from 1 to 0, representing the inverted percentage `duration` elapsed.
 - Each `duration`, `time` loops back to 0 and starts again

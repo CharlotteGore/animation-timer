@@ -288,4 +288,19 @@ describe('Animation Core module', function (){
 
   });
 
+  it('allows the start of an animation to be deferred', function(){
+
+    var start = Date.now();
+
+    var animation = new AnimationTimer();
+    animation.duration(200);
+    animation.on('tick', function (){
+
+      expect(Date.now() - start).to.be.greaterThan(200);
+
+    });
+    animation.play(200);
+
+  });
+
 });

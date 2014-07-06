@@ -69,48 +69,48 @@ AnimationTimer.prototype = {
 
   },
   // play through once, stopping at '1'
-  play : function () {
+  play : function (start) {
 
     this._lastTick = 0;
     this._state = PLAYONCE;
     this._forwards = true;
-    this._handle = tick.add(playOnceHandler.bind(this));
+    this._handle = tick.add(playOnceHandler.bind(this), start);
 
   },
   // play through once, in reverse, stopping at '0'
-  reverse : function () {
+  reverse : function (start) {
 
     this._lastTick = 0;
     this._state = PLAYONCE;
     this._forwards = false;
-    this._handle = tick.add(playOnceHandler.bind(this));
+    this._handle = tick.add(playOnceHandler.bind(this), start);
 
   },
   // play through repeatedly, going from '0' to '1' every 'duration'
-  loop : function () {
+  loop : function (start) {
 
     this._lastTick = 0;
     this._state = LOOP;
     this._forwards = true;
-    this._handle = tick.add(loopHandler.bind(this));
+    this._handle = tick.add(loopHandler.bind(this), start);
 
   },
   // play in reverse repeatedly, going fmor '1' to '0' every 'duration'
-  loopReverse : function () {
+  loopReverse : function (start) {
 
     this._lastTick = 0;
     this._state = LOOP;
     this._forwards = false;
-    this._handle = tick.add(loopHandler.bind(this));
+    this._handle = tick.add(loopHandler.bind(this), start);
 
   },
   // repeatedly toggling between play() and reverse() every 'duration'
-  bounce : function () {
+  bounce : function (start) {
 
     this._lastTick = 0;
     this._state = BOUNCE;
     this._forwards = true;
-    this._handle = tick.add(bounceHandler.bind(this));
+    this._handle = tick.add(bounceHandler.bind(this), start);
 
   },
   // immediately stop. Stopped animations cannot be resumed.
@@ -156,6 +156,9 @@ AnimationTimer.prototype = {
 // handles single play animations
 function playOnceHandler (elapsed, delta, stop){
 
+  // this allows us to ignore handlers that haven't yet started...
+  if (elapsed < 0) return;
+
   // when playing only once, we need to guaranteed the highest number is 1.
   var percent = Math.min(1, elapsed / this._duration);
 
@@ -176,6 +179,9 @@ function playOnceHandler (elapsed, delta, stop){
 // handles looping animations
 function loopHandler (elapsed, delta, stop){
 
+  // this allows us to ignore handlers that haven't yet started...
+  if (elapsed < 0) return;
+
   var percent = (elapsed / this._duration) % 1;
 
   if(percent < this._lastTick){
@@ -190,6 +196,9 @@ function loopHandler (elapsed, delta, stop){
 
 // handles bounding animations
 function bounceHandler (elapsed, delta, stop){
+
+  // this allows us to ignore handlers that haven't yet started...
+  if (elapsed < 0) return;
 
   var percent = (elapsed / this._duration) % 1;
 
