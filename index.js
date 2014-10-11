@@ -116,10 +116,12 @@ AnimationTimer.prototype = {
   // immediately stop. Stopped animations cannot be resumed.
   stop : function () {
 
-    this._state = IDLE;
-    if(this._handle){
-      this._handle.stop();
-      this.trigger('stop', tick.now());
+    if (this._state !== IDLE){
+      this._state = IDLE;
+      if(this._handle){
+        this._handle.stop();
+        this.trigger('stop', tick.now());
+      }
     }
 
   },

@@ -22,14 +22,14 @@
   },
   "author": "Charlotte Gore <charlotte@greenmesa.co.uk>",
   "dependencies": {
-    "animation-loops": "2.0.2",
-    "gm-parse-duration": "~1.0.4",
-    "gm-is": "~1.2.2",
+    "animation-loops": "2.0.4",
+    "gm-parse-duration": "~1.0.6",
+    "gm-is": "~1.2.4",
     "foreach": "~2.0.4",
     "bindpolyfill": "0.0.0"
   },
   "main": "index.js",
-  "version": "1.0.8",
+  "version": "1.0.12",
   "license": "MIT",
   "repository": {
     "type": "git",
